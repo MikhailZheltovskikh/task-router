@@ -1,23 +1,17 @@
 import { useNavigate } from 'react-router-dom';
-import { formatDate } from '../helpers';
+import { formatDate } from '../../helpers';
 import React from 'react';
-
-type IData = {
-	name: string;
-	type: string;
-	dimension: string;
-	created: string;
-};
+import { ILocation } from '../../types';
 
 type ILocationItemProps = {
-	data: IData;
+	data: ILocation;
 };
 
 export const LocationItem: React.FC<ILocationItemProps> = ({ data }) => {
 	const navigate = useNavigate();
 
 	return (
-		<>
+		<div>
 			<h1>{data.name}</h1>
 
 			<div className="item">
@@ -42,6 +36,6 @@ export const LocationItem: React.FC<ILocationItemProps> = ({ data }) => {
 			<button className="button" onClick={() => navigate(-1)}>
 				Назад
 			</button>
-		</>
+		</div>
 	);
 };
