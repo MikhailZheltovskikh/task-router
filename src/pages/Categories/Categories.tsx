@@ -7,7 +7,7 @@ export const Categories: React.FC = () => {
 		<div className="wrapper">
 			<ul className="categories-list">
 				<li>
-					<NavLink to="characters">Герои</NavLink>
+					<NavLink to="character">Герои</NavLink>
 				</li>
 				<li>
 					<NavLink to="location">Локации</NavLink>
