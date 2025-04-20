@@ -25,6 +25,7 @@ export const Authorization: React.FC = () => {
 	const [errors, setErrors] = useState<{ [key: string]: string }>({});
 	const [formData, setFormData] = useState<FormData>(initialState);
 
+
 	const handleChange = (e: React.ChangeEvent<HTMLFormElement>) => {
 		const { name, value } = e.target;
 

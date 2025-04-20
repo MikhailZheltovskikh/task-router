@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { getUserFromStorage } from '../helpers';
 
 type IUser = {
 	email: string;
@@ -7,7 +8,6 @@ type IUser = {
 
 type AuthContextType = {
 	user: IUser | null;
-	isLogout: boolean,
 	signin: (newUser: IUser, callback: () => void) => void;
 	signout: () => void;
 };
@@ -27,40 +27,27 @@ export function useAuth(): AuthContextType {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-	const [user, setUser] = useState<IUser | null>(() => {
-		const savedUser = localStorage.getItem('user');
-		if (!savedUser) return null;
-		const parsedUser = JSON.parse(savedUser);
-		if (typeof parsedUser === 'string') {
-			return {
-				email: parsedUser,
-			};
-		}
-		return parsedUser;
-	});
-
-	const [isLogout, setIsLogout] = useState(false);
+	const [user, setUser] = useState<IUser | null>(() => getUserFromStorage());
 
 	const signin = (newUser: IUser, callback: () => void) => {
-		setIsLogout(false)
-		setUser(newUser);
-		localStorage.setItem('user', JSON.stringify(newUser.email));
-		callback();
+		if (!user) {
+			setUser(newUser);
+			localStorage.setItem('user', JSON.stringify(newUser));
+			callback();
+		}
 	};
 
-
-
 	const signout = () => {
-		setIsLogout(true)
-		setUser(null);
-		localStorage.removeItem('user');
+		if (user) {
+			setUser(null);
+			localStorage.removeItem('user');
+		}
 	};
 
 	const value: AuthContextType = {
 		user,
 		signin,
 		signout,
-		isLogout
 	};
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
