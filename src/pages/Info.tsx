@@ -1,12 +1,10 @@
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { CharactersItem, EpisodeItem, LocationItem } from '../components';
 import React, { useEffect, useState } from 'react';
-import { URL_MOCK } from '../constants';
 import axios from 'axios';
 
 export const Info: React.FC = () => {
 	const { category, id } = useParams();
-	const location = useLocation();
 	const [itemData, setItemData] = useState();
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState(false);

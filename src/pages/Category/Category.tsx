@@ -1,10 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
-import { URL_MOCK } from '../../constants';
 import React from 'react';
 import './Category.scss';
 import type { ICharacter, ILocation, IEpisode } from '../../types';
-import axios from 'axios';
 import { useInfinityScroll } from '../../hooks/useInfinityScroll';
 
 type SortType = 'asc' | 'desc';

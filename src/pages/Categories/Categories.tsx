@@ -1,6 +1,6 @@
 import { NavLink, Outlet } from 'react-router-dom';
-import React from 'react';
-import './Categories.scss'
+import React, { Suspense } from 'react';
+import './Categories.scss';
 
 export const Categories: React.FC = () => {
 	return (
@@ -16,7 +16,9 @@ export const Categories: React.FC = () => {
 					<NavLink to="episode">Эпизоды</NavLink>
 				</li>
 			</ul>
-			<Outlet />
+			<Suspense fallback={<h1>Loading...</h1>}>
+				<Outlet />
+			</Suspense>
 		</div>
 	);
 };
