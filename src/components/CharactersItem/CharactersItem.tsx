@@ -1,26 +1,18 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './CharactersItem.scss';
-import { formatDate } from '../helpers';
-
-type IData = {
-	name: string;
-	image: string;
-	status: string;
-	species: string;
-	gender: string;
-	created: string;
-};
+import { formatDate } from '../../helpers';
+import { ICharacter } from '../../types';
 
 type ICharactersItemProps = {
-	data: IData;
+	data: ICharacter;
 };
 
 export const CharactersItem: React.FC<ICharactersItemProps> = ({ data }) => {
 	const navigate = useNavigate();
 
 	return (
-		<>
+		<div>
 			<h1>{data.name}</h1>
 
 			<div className="item">
@@ -52,6 +44,6 @@ export const CharactersItem: React.FC<ICharactersItemProps> = ({ data }) => {
 			<button className="button" onClick={() => navigate(-1)}>
 				Назад
 			</button>
-		</>
+		</div>
 	);
 };

@@ -1,23 +1,17 @@
 import { useNavigate } from 'react-router-dom';
-import { formatDate } from '../helpers';
+import { formatDate } from '../../helpers';
 import React from 'react';
-
-type IData = {
-	name: string;
-	air_date: string;
-	episode: string;
-	created: string;
-};
+import { IEpisode } from '../../types';
 
 type IEpisodeItemProps = {
-	data: IData;
+	data: IEpisode;
 };
 
 export const EpisodeItem: React.FC<IEpisodeItemProps> = ({ data }) => {
 	const navigate = useNavigate();
 
 	return (
-		<>
+		<div>
 			<h1>{data.name}</h1>
 
 			<div className="item">
@@ -42,6 +36,6 @@ export const EpisodeItem: React.FC<IEpisodeItemProps> = ({ data }) => {
 			<button className="button" onClick={() => navigate(-1)}>
 				Назад
 			</button>
-		</>
+		</div>
 	);
 };

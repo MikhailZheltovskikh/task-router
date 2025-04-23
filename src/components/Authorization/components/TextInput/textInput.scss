@@ -1,0 +1,61 @@
+.textInput {
+	width: 100%;
+	line-height: normal;
+}
+
+.textInput + .textInput {
+	margin-top: 10px;
+}
+
+.textInput-box {
+	display: flex;
+}
+
+.textInput-name {
+	font-weight: 700;
+	color: #000;
+}
+
+.textInput-input {
+	display: block;
+	width: 100%;
+	padding: 10px;
+	margin-top: 5px;
+	font-size: inherit;
+	border: 1px solid rgba(0, 0, 0, 0.5);
+
+	&::placeholder {
+		color: rgba(0, 0, 0, 0.5);
+	}
+}
+
+.icon {
+	position: relative;
+
+	&::before {
+		content: '';
+		position: absolute;
+		top: 50%;
+		left: 10px;
+		transform: translateY(-50%);
+		width: 20px;
+		height: 20px;
+	}
+
+	&[data-icon='mail']::before {
+		background: url(../Icons/mail.svg) center/contain no-repeat;
+	}
+
+	&[data-icon='password']::before {
+		background: url(../Icons/password.svg) center/contain no-repeat;
+	}
+
+	& > input {
+		padding-left: 40px;
+	}
+}
+
+.textInput-error,
+.required {
+	color: red;
+}

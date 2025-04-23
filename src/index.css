@@ -8,6 +8,50 @@ body {
 	margin: 0;
 }
 
+.size-xs {
+	font-size: 12px;
+}
+
+.size-s {
+	font-size: 14px;
+}
+
+.size-m {
+	font-size: 16px;
+}
+
+.size-l {
+	font-size: 18px;
+}
+
+.size-xl {
+	font-size: 20px;
+}
+
+.border-radius-xs {
+	border-radius: 2px;
+}
+
+.border-radius-s {
+	border-radius: 4px;
+}
+
+.border-radius-m {
+	border-radius: 8px;
+}
+
+.border-radius-l {
+	border-radius: 16px;
+}
+
+.border-radius-xl {
+	border-radius: 32px;
+}
+
+body {
+	margin: 0;
+}
+
 .container {
 	max-width: 1200px;
 	padding: 0 10px;
@@ -15,14 +59,18 @@ body {
 	margin: 0 auto;
 }
 
+h1 {
+	margin-top: 0;
+}
+
 ul {
-	display: flex;
-	flex-direction: column;
-	row-gap: 10px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
 }
 
 li {
-	font-size: 16px;
+	font-size: 20px;
 	line-height: normal;
 	font-weight: 400;
 }
@@ -84,7 +132,7 @@ a:hover {
 	display: flex;
 	align-items: center;
 	column-gap: 10px;
-	margin: 20px 0;
+	margin-bottom: 20px;
 	padding: 10px;
 	border: 1px solid #000;
 	border-radius: 10px;

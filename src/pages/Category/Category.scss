@@ -1,0 +1,21 @@
+.category {
+	width: 100%;
+}
+
+.category-list {
+	display: flex;
+	flex-direction: column;
+	row-gap: 20px;
+
+
+	.category-item {
+		display: flex;
+		align-items: center;
+		column-gap: 10px;
+
+		img {
+			width: 80px;
+			height: 80px;
+		}
+	}
+}
