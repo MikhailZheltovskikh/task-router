@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, {
+	createContext,
+	useContext,
+	useState,
+	ReactNode,
+	useCallback,
+} from 'react';
 import { getUserFromStorage } from '../helpers';
 
 type IUser = {
@@ -29,20 +35,23 @@ export function useAuth(): AuthContextType {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 	const [user, setUser] = useState<IUser | null>(() => getUserFromStorage());
 
-	const signin = (newUser: IUser, callback: () => void) => {
-		if (!user) {
-			setUser(newUser);
-			localStorage.setItem('user', JSON.stringify(newUser));
-			callback();
-		}
-	};
+	const signin = useCallback(
+		(newUser: IUser, callback: () => void) => {
+			if (!user) {
+				setUser(newUser);
+				localStorage.setItem('user', JSON.stringify(newUser));
+				callback();
+			}
+		},
+		[user, setUser],
+	);
 
-	const signout = () => {
+	const signout = useCallback(() => {
 		if (user) {
 			setUser(null);
 			localStorage.removeItem('user');
 		}
-	};
+	}, [user, setUser]);
 
 	const value: AuthContextType = {
 		user,
