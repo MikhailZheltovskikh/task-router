@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
-import { URL_MOCK } from '../../constants';
 import React from 'react';
 import './Category.scss';
 import type { ICharacter, ILocation, IEpisode } from '../../types';
+import { useInfinityScroll } from '../../hooks/useInfinityScroll';
 
 type SortType = 'asc' | 'desc';
 
@@ -13,33 +13,33 @@ type CategoryData = ICharacter | ILocation | IEpisode;
 
 export const Category: React.FC = () => {
 	const { category } = useParams<{ category: CategoryType }>();
-	const [data, setData] = useState<CategoryData[]>([]);
-	const [isLoading, setIsLoading] = useState<boolean>(true);
-	const [error, setError] = useState<boolean>(false);
 	const [searchParams, setSearchParams] = useSearchParams({ _sort: '' });
 	const sort = searchParams.get('_sort') as SortType | null;
 
-	useEffect(() => {
-		(async () => {
-			try {
-				setIsLoading(true);
-				setError(false);
+	const { data, setData, isLoading, error, hasMore, setPageNumber } = useInfinityScroll(
+		category
+	);
 
-				const response = await fetch(`${URL_MOCK}/${category}.json`);
-				const jsonData = await response.json();
-
-				if (sort) {
-					sortFunc(sort, jsonData);
-				} else {
-					setData(jsonData);
-				}
-			} catch (error) {
-				setError(error && true);
-			} finally {
-				setIsLoading(false);
+	const observer = useRef<IntersectionObserver | null>(null);
+	const lastNodeRef = useCallback(
+		(node) => {
+			if (isLoading) return;
+			if (observer.current) {
+				observer.current.disconnect();
 			}
-		})();
-	}, [category, sort]);
+
+			observer.current = new IntersectionObserver((entries) => {
+				if (entries[0].isIntersecting && hasMore) {
+					setPageNumber((prev) => prev + 1);
+				}
+			});
+
+			if (node) {
+				observer.current.observe(node);
+			}
+		},
+		[isLoading, hasMore],
+	);
 
 	const handlechange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		const { value } = e.target;
@@ -60,7 +60,7 @@ export const Category: React.FC = () => {
 				setData([...items].sort((a, b) => b.name.localeCompare(a.name)));
 				break;
 			default:
-				break;
+				return;
 		}
 	};
 
@@ -70,37 +70,51 @@ export const Category: React.FC = () => {
 
 	return (
 		<div className="category">
-			{isLoading ? (
-				<h1>Loading...</h1>
-			) : (
-				<>
-					<div className="sort">
-						<div className="sort-title">Сортировка</div>
-						<select
-							className="sort-list"
-							onChange={handlechange}
-							value={sort || 'none'}
-						>
-							<option value="none" disabled>
-								None
-							</option>
-							<option value="asc">A-Z</option>
-							<option value="desc">Z-A</option>
-						</select>
-					</div>
+			<>
+				<div className="sort">
+					<div className="sort-title">Сортировка</div>
+					<select
+						className="sort-list"
+						onChange={handlechange}
+						value={sort || 'none'}
+					>
+						<option value="none" disabled>
+							None
+						</option>
+						<option value="asc">A-Z</option>
+						<option value="desc">Z-A</option>
+					</select>
+				</div>
 
-					<ul className="category-list">
-						{data.map((item) => (
-							<li className="category-item" key={item.id}>
-								{'image' in item && <img src={item.image} alt="" />}
-								<Link to={`${item.id}`} state={{ itemData: item }}>
-									{item.name}
-								</Link>
-							</li>
-						))}
-					</ul>
-				</>
-			)}
+				<ul className="category-list">
+					{data.map((item, index) => {
+						if (data.length === index + 1) {
+							return (
+								<li
+									ref={lastNodeRef}
+									className="category-item"
+									key={item.id}
+								>
+									{'image' in item && <img src={item.image} alt="" />}
+									<Link to={`${item.id}`} state={{ itemData: item }}>
+										{item.name}
+									</Link>
+								</li>
+							);
+						} else {
+							return (
+								<li className="category-item" key={item.id}>
+									{'image' in item && <img src={item.image} alt="" />}
+									<Link to={`${item.id}`} state={{ itemData: item }}>
+										{item.name}
+									</Link>
+								</li>
+							);
+						}
+					})}
+					{isLoading && <h4>Идет загрузка данных</h4>}
+				</ul>
+			</>
 		</div>
 	);
 };

@@ -1,20 +1,15 @@
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { CharactersItem, EpisodeItem, LocationItem } from '../components';
 import React, { useEffect, useState } from 'react';
-import { URL_MOCK } from '../constants';
+import axios from 'axios';
 
 export const Info: React.FC = () => {
 	const { category, id } = useParams();
-	const location = useLocation();
-	const [itemData, setItemData] = useState(location.state?.itemData || null);
+	const [itemData, setItemData] = useState();
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState(false);
 
 	useEffect(() => {
-		if (location.state?.itemData) {
-			return;
-		}
-
 		const fetchData = async () => {
 			if (!category || !id) return;
 
@@ -22,13 +17,13 @@ export const Info: React.FC = () => {
 			setError(false);
 
 			try {
-				const response = await fetch(`${URL_MOCK}/${category}.json`);
-				const data = await response.json();
+				const response = await axios({
+					method: 'GET',
+					url: `https://rickandmortyapi.com/api/${category}/${id}`,
+				});
 
-				const item = data.find((item) => item.id === Number(id));
-				if (item) {
-					setItemData(item);
-				}
+				const data = await response.data;
+				setItemData(data);
 			} catch (err) {
 				setError(true);
 			} finally {
@@ -37,7 +32,7 @@ export const Info: React.FC = () => {
 		};
 
 		fetchData();
-	}, [category, id, location.state]);
+	}, [category, id]);
 
 	const typeItem = (type: string | undefined) => {
 		if (isLoading) {
@@ -53,7 +48,7 @@ export const Info: React.FC = () => {
 		}
 
 		switch (type) {
-			case 'characters':
+			case 'character':
 				return <CharactersItem data={itemData} />;
 			case 'location':
 				return <LocationItem data={itemData} />;

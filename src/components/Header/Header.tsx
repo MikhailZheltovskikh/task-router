@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useTransition } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import './Header.scss';
 import { useAuth } from '../../context/AuthProvider';
 import { USERS } from '../../constants';
 
 export const Header: React.FC = () => {
+	const [isPending, startTransition] = useTransition();
+
 	const auth = useAuth();
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 
 	const UserName = (user: string) => {
 		const userItem = USERS.find((item) => item.email === user);
@@ -16,9 +18,11 @@ export const Header: React.FC = () => {
 	};
 
 	const handleClickSignOut = () => {
-		auth.signout();
-		navigate('/', { replace: true });
-	}
+		startTransition(() => {
+			auth.signout();
+			navigate('/', { replace: true });
+		});
+	};
 
 	return (
 		<div className="header-wrapper">
