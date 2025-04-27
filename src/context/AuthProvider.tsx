@@ -5,7 +5,7 @@ import React, {
 	ReactNode,
 	useCallback,
 } from 'react';
-import { getUserFromStorage } from '../helpers';
+import { getUserFromStorage } from '../utils';
 
 type IUser = {
 	email: string;
