@@ -26,6 +26,7 @@ export const TextInput: React.FC<ITextInputProps> = ({
 	icon,
 	...props
 }) => {
+	console.log(" error:", error)
 	return (
 		<div className={`textInput size-${size}`}>
 			<div className="textInput-box">

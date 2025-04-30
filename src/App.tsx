@@ -6,7 +6,7 @@ import { PrivateRoute } from './components/PrivateRoute/PrivateRoute';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 
 const Home = lazy(() =>
-	import('./pages/Home').then((module) => ({ default: module.Home })),
+	import('./pages/Home/Home').then((module) => ({ default: module.Home })),
 );
 
 const Category = lazy(() =>
@@ -16,13 +16,13 @@ const Category = lazy(() =>
 );
 
 const Info = lazy(() =>
-	import('./pages/Info').then((module) => ({
+	import('./pages/Info/Info').then((module) => ({
 		default: module.Info,
 	})),
 );
 
 const NotFound = lazy(() =>
-	import('./pages/NotFound').then((module) => ({
+	import('./pages/NotFound/NotFound').then((module) => ({
 		default: module.NotFound,
 	})),
 );

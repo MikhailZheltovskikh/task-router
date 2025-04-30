@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './CharactersItem.scss';
-import { formatDate } from '../../helpers';
+import { formatDate } from '../../utils';
 import { ICharacter } from '../../types';
 
 type ICharactersItemProps = {

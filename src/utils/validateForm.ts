@@ -20,7 +20,6 @@ interface ValidationErrors {
 
 interface ValidationResult {
 	errors: ValidationErrors;
-	userName: string | undefined;
 }
 
 export const validateForm = (
@@ -29,7 +28,6 @@ export const validateForm = (
 	isSignIn: boolean = false,
 ): ValidationResult => {
 	let errors: ValidationErrors = {};
-	let foundUser: string | undefined;
 
 	inputs.forEach(({ name, required }) => {
 		const value = formData[name];
@@ -48,13 +46,8 @@ export const validateForm = (
 			if (!user) {
 				errors[name] = 'Неверный пароль';
 			}
-			foundUser = user?.name;
-		} else if (name === 'repeatPassword') {
-			if (value !== formData.password) {
-				errors[name] = 'Пароли не совпадают';
-			}
 		}
 	});
 
-	return { errors, userName: foundUser };
+	return { errors };
 };

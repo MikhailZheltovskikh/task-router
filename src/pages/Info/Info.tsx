@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { CharactersItem, EpisodeItem, LocationItem } from '../components';
+import { CharactersItem, EpisodeItem, LocationItem } from '../../components';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 

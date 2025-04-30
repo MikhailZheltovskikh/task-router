@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { formatDate } from '../../helpers';
+import { formatDate } from '../../utils';
 import React from 'react';
 import { ILocation } from '../../types';
 

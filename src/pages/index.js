@@ -1,5 +1,6 @@
 export * from './Home';
-export * from './Category/Category.tsx';
-export * from './Info.tsx';
+export * from './Categories';
+export * from './Category';
+export * from './Info';
 export * from './NotFound';
-export * from './Categories/Categories.tsx';
+

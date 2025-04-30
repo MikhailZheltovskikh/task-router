@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FormWrapper, TextInput, Button } from './components';
-import { validateForm } from '../../helpers';
+import { validateForm } from '../../utils';
 import { inputsSingin } from '../../constants';
 import { useAuth } from '../../context/AuthProvider';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -25,7 +25,6 @@ export const Authorization: React.FC = () => {
 	const [errors, setErrors] = useState<{ [key: string]: string }>({});
 	const [formData, setFormData] = useState<FormData>(initialState);
 
-
 	const handleChange = (e: React.ChangeEvent<HTMLFormElement>) => {
 		const { name, value } = e.target;
 
@@ -45,7 +44,7 @@ export const Authorization: React.FC = () => {
 
 		setErrors((prev) => ({
 			...prev,
-			[name]: newErrors[name] || '',
+			[name]: newErrors.errors[name] || '',
 		}));
 	};
 
@@ -56,7 +55,7 @@ export const Authorization: React.FC = () => {
 			navigate(from, { replace: true });
 		});
 	};
-
+	console.log("#####", errors)
 	return (
 		<FormWrapper>
 			<form onSubmit={handleSubmit} onChange={handleChange}>
